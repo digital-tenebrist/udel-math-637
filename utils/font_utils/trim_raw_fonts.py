@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-import numpy as np
 import pandas as pd
+
+from csv import DictReader
 
 from .upper_lower_numerals import UpperLowerNumerals
 from .raw_font_record import RawFontRecord
@@ -15,38 +16,17 @@ class TrimRawFonts:
         self.image_cols = [f'r{r}c{c}' for r in range(20) for c in range(20)]
         self.char_col = 'char'
 
-    def raw_font_as_list(self, rfr: RawFontRecord):
+    def load_font_dataframe(self):
         '''
-        Input is RawFontRecord item
-        Output is array with string of character and 400 gray scale numerals
-        Only output loaded array if input record is in a-zA-Z-0-9
+        No inputs
+        Returns data frame with 401 columns with character lable in column: char
         '''
+        raw_font_list = None
+        with open(self.fname, "r") as fh:
+            reader = DictReader(fh)
+            raw_font_list = [RawFontRecord(*[v for k,v in fc.items()]) for fc in reader]
 
-        if self.debug:
-            print(f'TrimRawFonts : str : {str(chr(rfr.ascii_label))}')
+        trimmed = [[eval(f'{r}.{x}') for x in self.image_cols] for r in raw_font_list if r.ascii_label in self.uln]
+        indices = [r.ascii_label for r in raw_font_list if r.ascii_label in self.uln]
 
-        if rfr.ascii_label in self.uln:
-            return [chr(rfr.ascii_label), *[eval(f'{rfr}.{x}') for x in self.image_cols]]
-        else:
-            print('should not be here')
-            return None
-
-
-    def raw_font_as_df(self, rfr: RawFontRecord):
-        '''
-        Input is RawFontRecord item
-        Output is pandas dataframe with column names [char,r0c0,...r19,c19]
-        Only output loaded dataframe if input record is in a-zA-Z-0-9
-        '''
-
-        if rfr.ascii_label in self.uln:
-            i = [chr(rfr.ascii_label)]
-            d = [eval(f'{rfr}.{x}') for x in self.image_cols]
-            c = self.image_cols
-            # print(f'{len(d)} : Data {d}')
-            # print(f'{len(c)} : Cols {c}')
-            # return None
-            return pd.DataFrame(data=[d],index=i,columns=c)
-        else:
-            print('should not be here')
-            return None
+        return pd.DataFrame(data=trimmed,index=indices,columns=self.image_cols)
