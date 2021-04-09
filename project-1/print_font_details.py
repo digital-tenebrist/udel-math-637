@@ -15,6 +15,7 @@ FONT_LIST = [
     'lucida',
     'modern',
     'monotype',
+    'rockwell',
     'roman',
     'sansserif',
     'tahoma',
