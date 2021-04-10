@@ -12,9 +12,6 @@ class FontDetailConfig():
                                  'italic'
                              ]
         )
-        self.list_of_details = None
-
-    def get_font_detail_config(self):
         self.list_of_details = [
             self.nt('ARIAL', 'scanned', 0),
             self.nt('ARIAL', 'ARIAL', 0),
@@ -26,6 +23,7 @@ class FontDetailConfig():
             self.nt('CENTURY', 'CENTURY SCHOOLBOOK', 0),
             self.nt('CONSOLAS', 'CONSOLAS', 0),
             self.nt('COURIER', 'COURIER NEW', 0),
+            self.nt('COURIER', 'scanned', 0),
             self.nt('GARAMOND', 'GARAMOND', 0),
             self.nt('LUCIDA', 'LUCIDA CONSOLE', 0),
             self.nt('LUCIDA', 'LUCIDA SANS TYPEWRITER', 0),
@@ -38,4 +36,13 @@ class FontDetailConfig():
             self.nt('TIMES', 'TIMES NEW ROMAN', 0)
         ]
 
+    def get_font_detail_config(self):
         return self.list_of_details
+
+    def get_detail_config_for_font(self,font):
+        return [f for f in self.list_of_details if f.font_name == font]
+
+    def get_detail_config_for_font_variant(self,variant):
+        for fdc in self.list_of_details:
+            if fdc.font_variant == variant:
+                return fdc
