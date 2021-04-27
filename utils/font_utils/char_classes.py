@@ -17,7 +17,7 @@ class CharClass:
     def get_mixed_class(self):
         return [ord(x) for x in self._mixed_class]
 
-    def get_open_clas(self):
+    def get_open_class(self):
         return [ord(x) for x in self._open_class]
 
     def get_color_map(self):
@@ -32,3 +32,16 @@ class CharClass:
             color_map[c] = 'orange'
 
         return color_map
+
+    def get_char_class_name(self):
+        class_map = dict()
+        for c in self._curved_class:
+            class_map[c] = 'Curved'
+        for c in self._straight_class:
+            class_map[c] = 'Straight'
+        for c in self._mixed_class:
+            class_map[c] = 'Mixed'
+        for c in self._open_class:
+            class_map[c] = 'Open'
+
+        return class_map
