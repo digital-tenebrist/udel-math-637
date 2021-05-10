@@ -1,5 +1,8 @@
 import numpy as np
 
+from numpy import linalg as LA
+from sklearn.metrics.pairwise import euclidean_distances as ED
+
 def dist_to_origin(ar, dim):
     origin=np.zeros(dim)
     return np.linalg.norm(ar-origin)
@@ -12,3 +15,11 @@ def draw_normal_sample(dim,std):
     var=std**2
     cov=var*np.identity(dim)
     return np.random.multivariate_normal(m,cov,dim)
+
+def calc_dist_cor_score(x,y):
+    d_x = ED(x,x)
+    d_y = ED(y,y)
+
+    n_d = LA.norm(d_y-d_x, ord='fro')
+
+    return n_d / LA.norm(d_x, ord='fro')
