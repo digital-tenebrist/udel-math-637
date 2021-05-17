@@ -25,10 +25,10 @@ def calc_dist_cor_score(x,y):
     n_y = LA.norm(d_y, ord='fro')
     n_diff = LA.norm(d_y-d_x, ord='fro')
 
-    print(f'Norm(x) {n_x}')
-    print(f'Norm(y) {n_y}')
-    print(f'Norm(d) {n_diff}')
-    print(f'sqrt(x*y) {sqrt(n_x * n_y)}')
+    # print(f'Norm(x) {n_x}')
+    # print(f'Norm(y) {n_y}')
+    # print(f'Norm(d) {n_diff}')
+    # print(f'sqrt(x*y) {sqrt(n_x * n_y)}')
 
     # find the norm of d_y
     # then divide by product of norm_dx and norm_dy

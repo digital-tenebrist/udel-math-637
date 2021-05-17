@@ -59,7 +59,7 @@ class PlotClusters:
 
 
         # Larger Labeled Plot
-        plt.figure(figsize=(15,15))
+        fig = plt.figure(figsize=(15,15))
         sns.scatterplot(
             data=plot_df,
             x='x',
@@ -87,7 +87,10 @@ class PlotClusters:
                 )
 
         plt.title(title)
-        plt.xlabel('Eigen 0')
-        plt.ylabel('Eigen 1')
+        plt.xlabel('Dim 0')
+        plt.ylabel('Dim 1')
         plt.grid()
         plt.show()
+
+        pdf_filename = f'{title.replace(" ", "_")}.pdf'
+        fig.savefig(pdf_filename, bbox_inches='tight')
