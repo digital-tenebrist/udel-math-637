@@ -28,3 +28,10 @@ class FontDetails:
             # for r in res:
                 # print(f'  {r}')
             #print(eval(vc))
+
+    def print_font_variant(self):
+        for col in ['fontVariant']:
+            vc = f'self.raw_df.{col}.value_counts()'
+            res = eval(vc)
+            for i,v in res.items():
+                print(f'    {i} : {v}')
