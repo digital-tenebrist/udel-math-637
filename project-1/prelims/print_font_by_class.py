@@ -158,16 +158,72 @@ FONT_NAME_CLASS = [
     ('yi_baiti','unknown')
 ]
 
-def main():
-    class_list = [x[1] for x in FONT_NAME_CLASS]
-    uniq_class = set(class_list)
+CLASS_LU = {
+    'hw' : 'hand_writing',
+    'de' : 'decorative',
+    'ms' : 'monospace',
+    'os' : 'old_style',
+    'tr' : 'transitional',
+    'sc' : 'script',
+    'ss' : 'sans_serif',
+    'go' : 'gothic',
+    'uk' : 'unknown',
+    'st' : 'stencil',
+    'el' : 'electronic',
+    'mo' : 'modern',
+    'fo' : 'foreign'
+}
+
+REV_CLASS_LU = {
+    'monospace'    : 'ms',
+    'modern'       : 'mo',
+    'stencil'      : 'st',
+    'decorative'   : 'de',
+    'electronic'   : 'el',
+    'old_style'    : 'os',
+    'sans_serif'   : 'ss',
+    'hand_writing' : 'hw',
+    'gothic'       : 'go',
+    'foreign'      : 'fo',
+    'script'       : 'sc',
+    'unknown'      : 'uk',
+    'transitional' : 'tr'
+}
+
+def print_uniq_classes(class_list):
+    for s in set(class_list):
+        print(f'{s.upper()}')
+
+def print_reverse_lu(class_list):
+    uc = set(class_list)
+    for c in uc:
+        lu_k = next(key for key,value in CLASS_LU.items() if value == c)
+        print(f'{c.upper():12s} : {lu_k}')
+
+def print_details(uniq_class):
     for uc in uniq_class:
         f_list = [x[0] for x in FONT_NAME_CLASS if x[1] == uc]
-        print(f'Font class {uc.upper()}')
+        print(f'Font class {uc.upper()} ({len(f_list)})')
         for f in f_list:
             print(f'  {f.upper()}')
             fd = FontDetails(f)
             fd.print_font_variant()
+
+def print_named_tuple(uniq_class, tuple_tag):
+    for uc in uniq_class:
+        f_list = [x[0] for x in FONT_NAME_CLASS if x[1] == uc]
+        for f in f_list:
+            fd = FontDetails(f)
+            var_list = fd.get_font_variant()
+            for v in var_list:
+                print(f"{tuple_tag}('{f}','{v}','{uc}','{REV_CLASS_LU[uc]}'),")
+
+def main():
+    class_list = [x[1] for x in FONT_NAME_CLASS]
+    #print_named_tuple(set(class_list),'FontSelection')
+    print_reverse_lu(class_list)
+    #print_uniq_classes(class_list)
+    #print_details(set(class_list))
 
 if __name__ == '__main__':
     main()

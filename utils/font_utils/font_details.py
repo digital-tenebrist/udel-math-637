@@ -15,6 +15,7 @@ DETAIL_COLS=['font', 'fontVariant', 'italic']
 class FontDetails:
 
     def __init__(self, font_name):
+        self.font_name = font_name
         self.fname = f'{FONT_PATH}/{font_name.lower()}.{FONT_EXTENSION}'
         self.raw_df = pd.read_csv(self.fname)
 
@@ -33,5 +34,18 @@ class FontDetails:
         for col in ['fontVariant']:
             vc = f'self.raw_df.{col}.value_counts()'
             res = eval(vc)
+            cnt=0
             for i,v in res.items():
+                cnt += v
                 print(f'    {i} : {v}')
+            print(f'    Total : {cnt}')
+
+    def get_font_variant(self):
+        col='fontVariant'
+        vc = f'self.raw_df.{col}.value_counts()'
+        res = eval(vc)
+        o_list = list()
+        for i,v in res.items():
+            o_list.append(i)
+
+        return(o_list)
